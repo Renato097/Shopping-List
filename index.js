@@ -1,72 +1,96 @@
-let lista = []
-const elenco = document.getElementById('elenco')
-const input = document.getElementById('input')
-const btn = document.getElementById('btn')
-const clear = document.getElementById('clear')
+const itemList = document.getElementById('itemList');
+const itemInput = document.getElementById('itemInput');
+const addBtn = document.getElementById('addBtn');
+const clearBtn = document.getElementById('clearBtn');
+let list = [];
 
-const lista_str = new String (localStorage.getItem("lista"))
+const list_str = new String(localStorage.getItem("list"));
 
-function scriviLista(){
-    elenco.innerHTML = ''
-    for (let i = 0; i < lista.length; i++){
-        elenco.innerHTML += `<li ondblclick = "cancella(${i})">${lista[i]}</li>`
+function writeList() {
+    itemList.innerHTML = '';
+    for (let i = 0; i < list.length; i++) {
+        itemList.innerHTML += `<li ondblclick = "removeItem(${i})">${list[i]}</li>`
     };
 }
 
-function aggiornaStr(){
-    let stringa = lista.toString()
-    localStorage.setItem("lista", stringa)
+function updateStr() {
+    let str = list.toString();
+    localStorage.setItem("list", str);
 }
 
-// Caricamento stringa e prima scrittura all'avvio
-if (lista_str != ''){
-    lista = lista_str.split(',')
+// String load and startup
+if (list_str != '' && list_str != 'null') {
+    list = list_str.split(',');
 
-    scriviLista()
+    writeList();
 
-    clear.style.display = 'block'
+    clearBtn.style.display = 'block';
 }
 
-// Aggiungi
-btn.addEventListener('click', function(){
-    if (input.value != ''){
+// Add
+addBtn.addEventListener('click', function () {
+    if (itemInput.value != '') {
 
-        lista.push(input.value)
+        list.push(itemInput.value);
 
-        scriviLista()
+        writeList();
 
-        aggiornaStr()
+        updateStr();
 
-        input.value = ''
+        itemInput.value = '';
 
-        clear.style.display = 'block'
+        clearBtn.style.display = 'block';
+    }
+})
+itemInput.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        addBtn.click();
+    }
+});
+
+// Clear all
+clearBtn.addEventListener('click', function () {
+    const confClear = confirm("Sicuro di voler cancellare tutto?");
+    if (confClear) {
+
+        list = [];
+
+        itemList.innerHTML = '';
+
+        updateStr();
+
+        clearBtn.style.display = 'none';
     }
 })
 
-// Rimuovi tutto
-clear.addEventListener('click', function(){
-    const conferma = confirm("Sicuro di voler cancellare tutto?");
-    if (conferma){
-        
-        lista = []
+// Remove item (double click from html)
+function removeItem(j) {
+    list.splice(j, 1);
 
-        elenco.innerHTML = ''
-    
-        aggiornaStr()
-    
-        clear.style.display = 'none'
+    writeList();
+
+    updateStr();
+
+    if (list.length == 0) {
+        clearBtn.style.display = 'none';
     }
-})
+}
 
-// Rimuovi singolo (onclick dall'html)
-function cancella(j){
-    lista.splice(j, 1)
+// Info Modal
+var modal = document.getElementById("info-modal");
+var modalBtn = document.getElementById("info");
+var modalClose = document.getElementById("closeBtn");
 
-    scriviLista()
+modalBtn.onclick = function () {
+    modal.style.display = "block";
+}
+modalClose.onclick = function () {
+    modal.style.display = "none";
+}
 
-    aggiornaStr()
-
-    if (lista.length == 0){
-        clear.style.display = 'none'
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
     }
 }

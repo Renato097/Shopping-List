@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,13 +19,31 @@
 
 <body>
     <main>
+        <div id="info">i</div>
         <img src="./img/kitty.png" alt="">
-        <input type="text" id="input" placeholder="Spesa">
-        <button id="btn">Aggiungi</button>
-        <ul id="elenco">
+        <input type="text" id="itemInput" placeholder="Spesa">
+        <button id="addBtn">Aggiungi</button>
+        <ul id="itemList">
         </ul>
-        <button id="clear">Cancella tutto</button>
+        <button id="clearBtn">Cancella tutto</button>
     </main>
+
+    <div class="modal" id="info-modal">
+        <div class="modal-content">
+            <div class="modal-head">
+                <p>Info per l'utilizzo</p>
+                <span id="closeBtn">&times</span>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li>Scrivi il nome di un oggetto e premi il tasto "Aggiungi" per inserirlo nella lista</li>
+                    <li>Premi due volte su un oggetto per rimuoverlo</li>
+                    <li>Premi il grosso pulsante rosso per cancellare tutta la lista</li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <script src="./index.js"></script>
 </body>
+
 </html>
